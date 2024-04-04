@@ -49,4 +49,17 @@ The server will then run on `localhost:8001`.
 > |---------------|-----------------------------------|---------------------------------------------------------------------|
 > | `200`         | `application/json`                | `{ ok: boolean, message: string, data: { answer: string }`          |
 
+#### Example
+```javascript
+axios.post(`${baseUrl}/qgen`, {
+    doc_paths: ["/path/to/file.pdf"],
+    num_questions: 5,
+    question_types: ["MCQ", "SHORT"]
+}, {
+    headers: {
+        "x-access-token": "your-jwt-token"
+    }
+}).then(...).catch(...);
+```
+
 </details>
