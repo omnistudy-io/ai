@@ -1,4 +1,5 @@
 # Imports
+import os
 from typing import List
 from stores import DocStore
 from langchain.chains import LLMChain
@@ -20,7 +21,7 @@ class Chat:
     def run(self):
         """Using the prompt template, run the StuffChain with the ChatOpenAI LLM and return the answer."""
         prompt = PromptTemplate.from_template(self.prompt_template)
-        llm = ChatOpenAI(openai_api_key="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")
+        llm = ChatOpenAI(openai_api_key=os.environ.get('OPENAI_API_KEY'))
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         stuff_chain = StuffDocumentsChain(
             llm_chain=llm_chain,

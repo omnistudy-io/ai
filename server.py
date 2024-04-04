@@ -11,7 +11,9 @@ from qgen import QuestionGeneration
 from gpt import GPT
 from qtype import *
 
-port = 8000
+port = 8001
+
+os.environ['OPENAI_API_KEY'] = "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"
 
 class ServerHandler(BaseHTTPRequestHandler):
 
@@ -53,7 +55,7 @@ class ServerHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type','text/html')
         self.end_headers()
         # Send the html message
-        self.wfile.write(b"<b> Hello World!</b><br>Current time: " + str(datetime.datetime.now()).encode("utf-8"))
+        self.wfile.write(b"<b> Hello World, API Key= " + os.environ.get("OPENAI_API_KEY") + "!</b><br>Current time: " + str(datetime.datetime.now()).encode("utf-8"))
 
     def do_date(self):
         self.send_response(200)
