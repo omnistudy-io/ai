@@ -43,7 +43,7 @@ class ServerHandler(BaseHTTPRequestHandler):
 
     def json_response(self, ok, code, msg, desc, data = {}):
         """Send a json response with the passed in parameters"""
-        response = {"result": { "ok": ok, "code": code, "message": msg, "description": desc, "data": data }}
+        response = {"ok": ok, "code": code, "message": msg, "description": desc, "data": data}
         self.send_response(code)
         self.send_header('Content-type', 'application/json')
         self.send_header('Access-Control-Allow-Origin', '*')
