@@ -7,12 +7,12 @@ This is the AI module of OmniStudy. It is responsible for the following tasks:
 ## Running
 Make sure you have Docker Desktop installed. Then, run the following command:
 ```bash
-./run_docker
+./run_docker.sh
 ```
 
 You may have set executable permissions for the script:
 ```bash
-chmod +x run_docker
+chmod +x run_docker.sh
 ```
 
 The server will then run on `localhost:8001`.

@@ -10,4 +10,4 @@ COPY . .
 RUN pip install -r ./requirements.txt
 EXPOSE 8001
 
-CMD ["python3", "server.py"]
+CMD ["python3", "src/server.py"]
