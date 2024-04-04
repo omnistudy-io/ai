@@ -44,15 +44,10 @@ The server will then run on `localhost:8001`.
   * `TOF`: True or False Questions
 </details>
 
-#### Responses
-> | http code     | content-type                      | response                                                            |
-> |---------------|-----------------------------------|---------------------------------------------------------------------|
-> | `200`         | `application/json`                | `{ ok: boolean, message: string, data: { answer: string }`          |
-
 #### Example
 ```javascript
 axios.post(`${baseUrl}/qgen`, {
-    doc_paths: ["/path/to/file.pdf"],
+    doc_paths: ["/path/to/file.pdf", "/path/to/another/file.pdf"],
     num_questions: 5,
     question_types: ["MCQ", "SHORT"]
 }, {
@@ -61,5 +56,62 @@ axios.post(`${baseUrl}/qgen`, {
     }
 }).then(...).catch(...);
 ```
+</details>
 
+
+### Summarize documents
+<details>
+    <summary><code>POST</code> <code>/summarize</code></summary>
+
+#### Headers
+> | name | type | description | 
+> | ---- | ----- | ----------- |
+> | x-access-token | string | JWT token | 
+
+#### Parameters (JSON)
+> | name | type | description | 
+> | ---- | ----- | ----------- |
+> | doc_paths | array | List of absolute (.pdf) file paths | 
+> | length | integer | Length of the summary [Maximum: 400] |
+
+#### Example
+```javascript
+axios.post(`${baseUrl}/summarize`, {
+    doc_paths: ["/path/to/file.pdf", "/path/to/another/file.pdf"],
+    length: 200
+}, {
+    headers: {
+        "x-access-token": "your-jwt-token"
+    }
+}).then(...).catch(...);
+```
+</details>
+
+
+### General chat
+<details>
+    <summary><code>POST</code> <code>/summarize</code></summary>
+
+#### Headers
+> | name | type | description | 
+> | ---- | ----- | ----------- |
+> | x-access-token | string | JWT token | 
+
+#### Parameters (JSON)
+> | name | type | description | 
+> | ---- | ----- | ----------- |
+> | doc_paths | array | List of absolute (.pdf) file paths | 
+> | question | string | The question to ask given the context |
+
+#### Example
+```javascript
+axios.post(`${baseUrl}/gpt`, {
+    doc_paths: ["/path/to/file.pdf", "/path/to/another/file.pdf"],
+    question: "Tell me about the documents..."
+}, {
+    headers: {
+        "x-access-token": "your-jwt-token"
+    }
+}).then(...).catch(...);
+```
 </details>
