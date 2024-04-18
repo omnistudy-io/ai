@@ -11,9 +11,9 @@ from qgen import QuestionGeneration
 from gpt import GPT
 from qtype import *
 
-port = 8001
-
-os.environ['OPENAI_API_KEY'] = "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"
+# Get the port from env
+port = int(os.environ.get('PORT'))
+openai_api_key = os.environ.get('OPENAI_API_KEY')
 
 class ServerHandler(BaseHTTPRequestHandler):
 
@@ -105,8 +105,8 @@ class ServerHandler(BaseHTTPRequestHandler):
 class ThreadedServer(ThreadingMixIn, HTTPServer):
     pass
 
-server = ThreadedServer(('', port), ServerHandler)
 print('Started httpserver on port', port)
+server = ThreadedServer(('', port), ServerHandler)
 
 #Wait forever for incoming http requests
 server.serve_forever()

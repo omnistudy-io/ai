@@ -1,0 +1,5 @@
+# Ignore staging/prod docker configs
+docker/staging.sh
+docker/Dockerfile.staging
+docker/prod.sh
+docker/Dockerfile.prod

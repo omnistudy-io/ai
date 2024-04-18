@@ -1,0 +1,24 @@
+# Download Python image from Docker Hub
+FROM python:3.10
+
+# Create directory for container
+WORKDIR /app
+
+# Create virtual env and copy files
+RUN pip install virtualenv
+RUN python3 -m venv venv
+RUN . ./venv/bin/activate
+COPY . .
+
+# Install dependencies
+RUN pip install -r ./requirements.txt
+
+# Environment variables
+ENV ENVIRONMENT dev
+ENV PORT 5001
+ENV HOSTNAME http://localhost
+ENV OPENAI_API_KEY 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
+
+# Expose port and run the app
+EXPOSE 5001
+CMD ["python3", "src/server.py"]
