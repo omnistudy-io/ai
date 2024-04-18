@@ -96,17 +96,20 @@ class ServerHandler(BaseHTTPRequestHandler):
     def do_gpt(self):
         content_length = int(self.headers['Content-Length'])
         post_body = json.loads(self.rfile.read(content_length))
-        
-        
-
-
-        docstore = DocStore(post_body['doc_paths'])
-        chat = GPT(
-            docstore.docs, 
-            question=post_body['question']
-        )
-        response = chat.run()['output_text']
+        text = post_body['text']
+        query = post_body['query']
+        gpt = Chat()
+        gpt.init_all(text)
+        response = gpt.run(text,post_body)
         self.json_response(True, 200, "Question answered succesfully", "", { "answer": response })
+
+        # docstore = DocStore(post_body['doc_paths'])
+        # chat = GPT(
+        #     docstore.docs, 
+        #     question=post_body['question']
+        # )
+        # response = chat.run()['output_text']
+        # self.json_response(True, 200, "Question answered succesfully", "", { "answer": response })
 
 class ThreadedServer(ThreadingMixIn, HTTPServer):
     pass
