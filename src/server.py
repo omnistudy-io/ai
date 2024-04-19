@@ -16,6 +16,9 @@ from chat2 import Chat
 # Get the port from env
 port = int(os.environ.get('PORT'))
 openai_api_key = os.environ.get('OPENAI_API_KEY')
+# Get the port from env
+port = int(os.environ.get('PORT'))
+openai_api_key = os.environ.get('OPENAI_API_KEY')
 
 class ServerHandler(BaseHTTPRequestHandler):
 
@@ -114,6 +117,7 @@ class ServerHandler(BaseHTTPRequestHandler):
 class ThreadedServer(ThreadingMixIn, HTTPServer):
     pass
 
+print('Started httpserver on port', port)
 print('Started httpserver on port', port)
 server = ThreadedServer(('', port), ServerHandler)
 
