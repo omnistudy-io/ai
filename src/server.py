@@ -12,6 +12,8 @@ from gpt import GPT
 from qtype import *
 
 from chat2 import Chat
+from processor import FileUpload
+from qgen import Generator
 
 # Get the port from env
 port = int(os.environ.get('PORT'))
@@ -85,17 +87,12 @@ class ServerHandler(BaseHTTPRequestHandler):
     def do_qgen(self):
         content_length = int(self.headers['Content-Length'])
         post_body = json.loads(self.rfile.read(content_length))
-
-        docstore = DocStore(post_body['doc_paths'])
-        chat = QuestionGeneration(
-            docstore.docs, 
-            num_questions=post_body['num_questions'], 
-            question_types=[QuestionFactory.create_from_code(code) for code in post_body['question_types']]
-        )
-        response = chat.run()['output_text']
-        answer = json.loads(response)
-        self.json_response(True, 200, "Document(s) summarized succesfully", "", { "answer": answer })
-
+        text = post_body['text']
+        num_questions = post_body['num_questions']
+        topic_query = post_body['query']
+        qgen = Generator()
+        response = qgen.run(text_name=text,num_questions=num_questions,topic_query=topic_query)
+        self.json_response(True, 200, "Question answered succesfully", "", { "answer": response })
     def do_gpt(self):
         content_length = int(self.headers['Content-Length'])
         post_body = json.loads(self.rfile.read(content_length))
@@ -106,13 +103,13 @@ class ServerHandler(BaseHTTPRequestHandler):
         response = gpt.run(text,post_body)
         self.json_response(True, 200, "Question answered succesfully", "", { "answer": response })
 
-        # docstore = DocStore(post_body['doc_paths'])
-        # chat = GPT(
-        #     docstore.docs, 
-        #     question=post_body['question']
-        # )
-        # response = chat.run()['output_text']
-        # self.json_response(True, 200, "Question answered succesfully", "", { "answer": response })
+    def do_embedding(self):
+        content_length = int(self.headers['Content-Length'])
+        post_body = json.loads(self.rfile.read(content_length))
+        textbook_name = post_body['textbook_name']
+        file_path = post_body['file_path']   
+        embedder = FileUpload()
+        embedder.upload(path=file_path,textbook_name=textbook_name)
 
 class ThreadedServer(ThreadingMixIn, HTTPServer):
     pass
