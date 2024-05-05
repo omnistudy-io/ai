@@ -5,11 +5,12 @@ import json
 import re
 from socketserver import ThreadingMixIn
 
-from stores import DocStore
+from stores import DocStore, TextStore
 from summary import Summary
 from qgen import QuestionGeneration
 from gpt import GPT
 from qtype import *
+from videos import VideoFinder
 
 # Get the port from env
 port = int(os.environ.get('PORT'))
@@ -40,6 +41,9 @@ class ServerHandler(BaseHTTPRequestHandler):
             self.do_qgen() 
         elif self.path == '/gpt':
             self.do_gpt() 
+        elif self.path == '/videos':
+            print("/videos")
+            self.do_videos()
 
     def json_response(self, ok, code, msg, desc, data = {}):
         """Send a json response with the passed in parameters"""
@@ -55,7 +59,7 @@ class ServerHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type','text/html')
         self.end_headers()
         # Send the html message
-        self.wfile.write(b"<b> Hello World, API Key= " + os.environ.get("OPENAI_API_KEY") + "!</b><br>Current time: " + str(datetime.datetime.now()).encode("utf-8"))
+        self.wfile.write(b"<b> Hello World!</b><br>Current time: " + str(datetime.datetime.now()).encode("utf-8"))
 
     def do_date(self):
         self.send_response(200)
@@ -72,6 +76,7 @@ class ServerHandler(BaseHTTPRequestHandler):
         print(post_body['length'])
 
         docstore = DocStore(post_body['doc_paths'])
+        print(docstore.docs)
         chat = Summary(docstore.docs, length=post_body['length'])
         answer = chat.run()['output_text']
         self.json_response(True, 200, "Document(s) summarized succesfully", "", { "answer": answer })
@@ -101,6 +106,20 @@ class ServerHandler(BaseHTTPRequestHandler):
         )
         response = chat.run()['output_text']
         self.json_response(True, 200, "Question answered succesfully", "", { "answer": response })
+
+    def do_videos(self):
+        print("Received new request for videos")
+        content_length = int(self.headers['Content-Length'])
+        post_body = json.loads(self.rfile.read(content_length))
+
+        description = post_body['description']
+        docstore = TextStore("description", description)
+        chat = VideoFinder(
+            docs=docstore.docs
+        )
+        response = chat.run()['output_text']
+        answer = json.loads(response)
+        self.json_response(True, 200, "Videos generated succesfully", "", answer)
 
 class ThreadedServer(ThreadingMixIn, HTTPServer):
     pass
