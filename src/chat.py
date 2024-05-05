@@ -21,7 +21,7 @@ class Chat:
     def run(self):
         """Using the prompt template, run the StuffChain with the ChatOpenAI LLM and return the answer."""
         prompt = PromptTemplate.from_template(self.prompt_template)
-        llm = ChatOpenAI(openai_api_key=os.environ.get('OPENAI_API_KEY'))
+        llm = ChatOpenAI(openai_api_key=os.environ.get('OPENAI_API_KEY'), model="gpt-4")
         llm_chain = LLMChain(prompt=prompt, llm=llm)
         stuff_chain = StuffDocumentsChain(
             llm_chain=llm_chain,

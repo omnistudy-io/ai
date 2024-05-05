@@ -17,7 +17,7 @@ RUN pip install -r ./requirements.txt
 ENV ENVIRONMENT dev
 ENV PORT 5001
 ENV HOSTNAME http://localhost
-ENV OPENAI_API_KEY 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
+ENV OPENAI_API_KEY sk-proj-5BYmX3N39rLFeMlenIIHT3BlbkFJGOdBVDKeI4MzRKhvJdT4
 
 # Expose port and run the app
 EXPOSE 5001

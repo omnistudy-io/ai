@@ -8,13 +8,13 @@ class VideoFinder(Chat):
         prompt_template = """
             Given the following description for an assignment:
             {context}
-            Find the most relevant YouTube videos for this assignment. Please return the results in a json array format with the following fields title: string, url: string, publisher: string.
+            Search YouTube to find the 3 most relevant videos for this assignment. Return only the video URLs in an array of strings.
         """
         super().__init__(prompt_template, docs)
     
 
 # Example usage
 if __name__ == "__main__":
-    docs = TextStore("description", "Create a distributed hash table using the Chord protocol in Java RMI.").docs
+    docs = TextStore("description", "Create a NodeJS API from scratch.").docs
     finder = VideoFinder(docs)
     print(finder.run()['output_text'])
