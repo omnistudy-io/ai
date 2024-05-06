@@ -27,9 +27,7 @@ class ServerHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        if self.path == '/time':
-            self.do_time()
-        elif self.path == '/date':
+        if self.path == '/date':
             self.do_date()
 
     def do_POST(self):
@@ -53,13 +51,6 @@ class ServerHandler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
         self.wfile.write(bytes(json.dumps(response), 'utf-8'))
-
-    def do_time(self):
-        self.send_response(200)
-        self.send_header('Content-type','text/html')
-        self.end_headers()
-        # Send the html message
-        self.wfile.write(b"<b> Hello World!</b><br>Current time: " + str(datetime.datetime.now()).encode("utf-8"))
 
     def do_date(self):
         self.send_response(200)

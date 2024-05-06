@@ -1,3 +1,0 @@
-# Ignore staging/prod docker configs
-docker/prod.sh
-docker/Dockerfile.prod

@@ -14,9 +14,9 @@ COPY . .
 RUN pip install -r ./requirements.txt
 
 # Environment variables
-ENV ENVIRONMENT staging
+ENV ENVIRONMENT prod
 ENV PORT 80
-ENV HOSTNAME https://staging-ai.omnistudy.io
+ENV HOSTNAME https://ai.omnistudy.io
 
 # Expose port and run the app
 EXPOSE 80
