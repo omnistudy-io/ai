@@ -84,7 +84,7 @@ class ServerHandler(BaseHTTPRequestHandler):
         )
         response = chat.run()['output_text']
         answer = json.loads(response)
-        self.json_response(True, 200, "Document(s) summarized succesfully", "", { "answer": answer })
+        self.json_response(True, 200, "Document(s) summarized succesfully", "", answer)
 
     def do_gpt(self):
         content_length = int(self.headers['Content-Length'])
