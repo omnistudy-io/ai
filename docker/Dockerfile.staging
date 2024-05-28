@@ -1,0 +1,23 @@
+# Download Python image from Docker Hub
+FROM python:3.10
+
+# Create directory for container
+WORKDIR /app
+
+# Create virtual env and copy files
+RUN pip install virtualenv
+RUN python3 -m venv venv
+RUN . ./venv/bin/activate
+COPY . .
+
+# Install dependencies
+RUN pip install -r ./requirements.txt
+
+# Environment variables
+ENV ENVIRONMENT staging
+ENV PORT 80
+ENV HOSTNAME https://staging-ai.omnistudy.io
+
+# Expose port and run the app
+EXPOSE 80
+CMD ["python3", "src/server.py"]
