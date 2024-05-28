@@ -82,7 +82,11 @@ class ServerHandler(BaseHTTPRequestHandler):
             num_questions=post_body['num_questions'], 
             question_types=[QuestionFactory.create_from_code(code) for code in post_body['question_types']]
         )
-        response = chat.run()['output_text']
+        print("QGEN Running")
+        result = chat.run()
+        print("QGEN Result:")
+        print(result)
+        response = result['output_text']
         print("QGEN Response:")
         print(response)
         answer = json.loads(response)
