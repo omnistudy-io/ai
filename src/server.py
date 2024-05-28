@@ -83,6 +83,8 @@ class ServerHandler(BaseHTTPRequestHandler):
             question_types=[QuestionFactory.create_from_code(code) for code in post_body['question_types']]
         )
         response = chat.run()['output_text']
+        print("QGEN Response:")
+        print(response)
         answer = json.loads(response)
         self.json_response(True, 200, "Document(s) summarized succesfully", "", answer)
 
